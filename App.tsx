@@ -10,12 +10,16 @@ import {
   AlertTriangle,
   Settings,
   ShieldCheck,
-  Volume2
+  Volume2,
+  Wifi,
+  LayoutDashboard,
+  ScrollText
 } from 'lucide-react';
 import { ControlCard } from './components/ControlCard';
 import { SensorCard } from './components/SensorCard';
 import { SettingsDrawer } from './components/SettingsDrawer';
 import { SimulationPanel } from './components/SimulationPanel';
+import { ConnectionTest } from './components/ConnectionTest';
 import { hardwareService } from './services/mockHardwareService';
 import { analyzeHomeSafety } from './services/geminiService';
 import { DoorStatus, LogEntry } from './types';
@@ -35,7 +39,7 @@ export default function App() {
   // Logs & UI State
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'logs'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'logs' | 'connection'>('dashboard');
   const [isLoadingLamp, setIsLoadingLamp] = useState(false);
   const [isLoadingPlug, setIsLoadingPlug] = useState(false);
 
@@ -137,19 +141,28 @@ export default function App() {
         <div className="flex bg-gray-200 p-1 rounded-xl mb-6">
           <button 
             onClick={() => setActiveTab('dashboard')}
-            className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all ${activeTab === 'dashboard' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'}`}
+            className={`flex-1 flex flex-col items-center gap-1 py-2 text-xs font-semibold rounded-lg transition-all ${activeTab === 'dashboard' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'}`}
           >
+            <LayoutDashboard size={18} />
             Dashboard
           </button>
           <button 
             onClick={() => setActiveTab('logs')}
-            className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all ${activeTab === 'logs' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'}`}
+            className={`flex-1 flex flex-col items-center gap-1 py-2 text-xs font-semibold rounded-lg transition-all ${activeTab === 'logs' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'}`}
           >
-            Door Logs
+            <ScrollText size={18} />
+            Logs
+          </button>
+          <button 
+            onClick={() => setActiveTab('connection')}
+            className={`flex-1 flex flex-col items-center gap-1 py-2 text-xs font-semibold rounded-lg transition-all ${activeTab === 'connection' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'}`}
+          >
+            <Wifi size={18} />
+            Connect
           </button>
         </div>
 
-        {activeTab === 'dashboard' ? (
+        {activeTab === 'dashboard' && (
           <div className="space-y-6 animate-in fade-in duration-500">
             {/* Quick Stats Grid */}
             <div className="grid grid-cols-2 gap-4">
@@ -230,7 +243,9 @@ export default function App() {
             {/* Hardware Simulator (Dev Only) */}
             <SimulationPanel currentTemp={temperature} doorIsOpen={doorStatus === DoorStatus.OPEN} />
           </div>
-        ) : (
+        )}
+
+        {activeTab === 'logs' && (
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-in fade-in slide-in-from-right-4 duration-300">
             <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
               <h3 className="font-bold text-gray-800 flex items-center gap-2">
@@ -262,6 +277,11 @@ export default function App() {
             </div>
           </div>
         )}
+
+        {activeTab === 'connection' && (
+          <ConnectionTest />
+        )}
+
       </main>
 
       {/* Settings Drawer */}
