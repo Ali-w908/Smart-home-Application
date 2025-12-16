@@ -1,0 +1,5 @@
+{
+  "name": "SmartHome MDPS479",
+  "description": "Mobile-first home automation dashboard for Cairo University MDPS479 Project Week 11 Milestone. Controls lamps, plugs, and monitors temperature/door sensors.",
+  "requestFramePermissions": []
+}
