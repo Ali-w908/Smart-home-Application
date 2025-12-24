@@ -19,10 +19,10 @@ import {
 import { ControlCard } from './components/ControlCard';
 import { SensorCard } from './components/SensorCard';
 import { SettingsDrawer } from './components/SettingsDrawer';
-import { SimulationPanel } from './components/SimulationPanel';
+
 import { ConnectionTest } from './components/ConnectionTest';
 import { arduinoService, ArduinoState } from './services/arduinoService';
-import { analyzeHomeSafety } from './services/geminiService';
+import { analyzeHomeSafety } from './services/SmartAssistant';
 import { DoorStatus, LogEntry } from './types';
 
 // Initial constants
@@ -126,7 +126,7 @@ export default function App() {
         <div>
           <h1 className="text-lg font-bold text-gray-900">Smart Home Control</h1>
           <div className="flex items-center gap-2">
-            <p className="text-xs text-gray-500">MDPS479 - Week 11 Prototype</p>
+            <p className="text-xs text-gray-500">MDPS479 - Project</p>
             {isConnected ? (
               <span className="flex items-center gap-1 text-xs text-green-600">
                 <Wifi size={12} />
@@ -265,8 +265,7 @@ export default function App() {
               <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-10 -mt-10 blur-2xl pointer-events-none"></div>
             </div>
 
-            {/* Hardware Simulator (Dev Only) */}
-            <SimulationPanel currentTemp={temperature} doorIsOpen={doorStatus === DoorStatus.OPEN} />
+
           </div>
         )}
 
